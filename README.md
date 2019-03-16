@@ -12,3 +12,7 @@ pip install git+https://git.dev.tencent.com/SunDoge/torchpie.git
 - [ ] docs
 - [ ] metrics
 - [ ] ci
+
+## Functions
+
+- 自动保存实验代码和配置
