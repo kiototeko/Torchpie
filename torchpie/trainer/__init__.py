@@ -3,8 +3,8 @@ from torch.optim.lr_scheduler import _LRScheduler
 import torch
 import shutil
 from torchpie.experiment import experiment_path
-from torchpie.logging import Logger
-from torchpie.config import Config
+from torchpie.logging import logger
+from torchpie.config import config
 from injector import inject
 import os
 
@@ -20,7 +20,7 @@ class Trainer:
     epochs: int = 0
 
     @inject
-    def __init__(self, logger: Logger, config: Config):
+    def __init__(self):
         self.logger = logger
         self.config = config
 
@@ -54,7 +54,6 @@ class Trainer:
 
     def train(self):
         self.model.train()
-
 
     def eval(self):
         self.model.eval()

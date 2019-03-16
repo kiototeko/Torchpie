@@ -1,13 +1,11 @@
 from IPython.core import ultratb
-from torchpie.logging import Logger
+from torchpie.logging import logger
 import sys
-from injector import inject
 
 
 class ExceptionHook:
 
-    @inject
-    def __init__(self, logger: Logger):
+    def __init__(self):
         self.instance = None
         self.logger = logger
 

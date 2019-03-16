@@ -25,20 +25,10 @@ def get_logger(name: str, log_file: str):
 
     if args.debug:
         logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
     return logger
 
 
-# logger = get_logger('torchpie', 'result.log')
-
-
-class Logger(logging.Logger):
-    pass
-
-
-class LoggerModule(Module):
-
-    @singleton
-    @provider
-    def provide_logger(self) -> Logger:
-        return get_logger('torchpie', 'result.log')
+logger = get_logger('torchpie', 'result.log')
