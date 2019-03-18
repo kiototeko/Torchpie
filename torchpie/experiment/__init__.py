@@ -40,7 +40,7 @@ def get_experiment_path(experiment: str, debug: bool) -> Optional[str]:
         else:
             experiment_path = experiment
 
-    os.makedirs(experiment_path, exist_ok=True)
+    os.makedirs(experiment_path)
     return experiment_path
 
 
@@ -50,11 +50,6 @@ def is_distributed():
     else:
         return False
 
-
-def rank0(func):
-    def wrapper(*args, **kwargs):
-        if args.local_rank == 0:
-            return func(*args, **kwargs)
 
 
 experiment_path = get_experiment_path(args.experiment, args.debug)

@@ -1,13 +1,25 @@
 import logging
 import sys
 import os
-from torchpie.experiment import experiment_path, debug, rank0
+from torchpie.experiment import experiment_path, debug, local_rank
+import typing
 
 
 LOG_FORMAT = '%(asctime)s|%(levelname)-8s|%(filename)s:%(lineno)d %(message)s'
 
 
-@rank0
+def rank0(func=None):
+    if func is None:
+        return local_rank == 0
+
+    def wrapper(*args, **kwargs):
+        if local_rank == 0:
+            return func(*args, **kwargs)
+
+    return wrapper
+
+
+# @rank0
 def get_logging_logger(name: str, log_file: str) -> logging.Logger:
     logger = logging.getLogger(name)
 
@@ -33,25 +45,16 @@ def get_logging_logger(name: str, log_file: str) -> logging.Logger:
     return logger
 
 
+# Fake type, do not call super().__init__()
 class Logger(logging.Logger):
 
-    def __init__(self, *args, **kwargs):
-        super(Logger, self).__init__(*args, **kwargs)
+    def __init__(self):
+        self.inner = get_logging_logger('torchpie', 'result.log')
 
-    def setLevel(self, level: int):
-        super(Logger, self).setLevel(level)
-
-    def debug(self, msg, *args, **kwargs):
-        self.inner.debug(msg, *args, **kwargs)
-
-    def info(self, msg, *args, **kwargs):
-        self.inner.info(msg, *args, **kwargs)
-
-    def warning(self, msg, *args, **kwargs):
-        self.inner.warning(msg, *args, **kwargs)
-
-    def error(self, msg, *args, **kwargs):
-        self.inner.error(msg, *args, **kwargs)
+    @rank0
+    def __getattr__(self, name):
+        # print(f'call logger {name}')
+        return getattr(self.inner, name)
 
 
-logger = Logger()
+logger: logging.Logger = Logger()

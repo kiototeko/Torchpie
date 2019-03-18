@@ -14,6 +14,4 @@ def snapshot_as_zip(name: str, file_list: list = None, patterns=['**/*.py']):
         for filename in file_list:
             zf.write(filename)
 
-        logger.info('taking a snapshot of {}'.format(file_list))
-
-
+        logger.info('taking a snapshot of \n{}'.format(file_list))
