@@ -5,21 +5,17 @@ import shutil
 from torchpie.experiment import experiment_path
 from torchpie.logging import logger
 from torchpie.config import config
-from injector import inject
 import os
 
 
-class Trainer:
+class Context:
     model: nn.Module = None
     criterion: nn.Module = None
     optimizer: optim.Optimizer = None
     lr_scheduler: _LRScheduler = None
-    data_parallel: nn.DataParallel = None
-    is_data_parallel: bool = False
     epoch: int = 0
     epochs: int = 0
 
-    @inject
     def __init__(self):
         self.logger = logger
         self.config = config
@@ -60,3 +56,9 @@ class Trainer:
 
     def step(self):
         self.epoch += 1
+
+    def is_data_parallel(self):
+        isinstance(self.model, nn.DataParallel)
+
+    def data_parallel_(self):
+        self.model = nn.DataParallel(self.model)

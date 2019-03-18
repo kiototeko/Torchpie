@@ -1,6 +1,6 @@
 from zipfile import ZipFile
 import glob
-# from torchpie.logging import logger
+from torchpie.logging import logger
 
 
 def snapshot_as_zip(name: str, file_list: list = None, patterns=['**/*.py']):
@@ -14,6 +14,6 @@ def snapshot_as_zip(name: str, file_list: list = None, patterns=['**/*.py']):
         for filename in file_list:
             zf.write(filename)
 
-        # logger.info('taking a snapshot of {}'.format(file_list))
+        logger.info('taking a snapshot of {}'.format(file_list))
 
 

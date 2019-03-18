@@ -1,14 +1,14 @@
 import logging
 import sys
 import os
-from torchpie.experiment import experiment_path, args
-from injector import Module, singleton, provider
+from torchpie.experiment import experiment_path, debug, rank0
 
 
 LOG_FORMAT = '%(asctime)s|%(levelname)-8s|%(filename)s:%(lineno)d %(message)s'
 
 
-def get_logger(name: str, log_file: str):
+@rank0
+def get_logging_logger(name: str, log_file: str) -> logging.Logger:
     logger = logging.getLogger(name)
 
     formatter = logging.Formatter(LOG_FORMAT)
@@ -22,8 +22,10 @@ def get_logger(name: str, log_file: str):
             os.path.join(experiment_path, log_file))
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
+    else:
+        logger.warning('No experiment path, no log file will be generated.')
 
-    if args.debug:
+    if debug:
         logger.setLevel(logging.DEBUG)
     else:
         logger.setLevel(logging.INFO)
@@ -31,4 +33,25 @@ def get_logger(name: str, log_file: str):
     return logger
 
 
-logger = get_logger('torchpie', 'result.log')
+class Logger(logging.Logger):
+
+    def __init__(self, *args, **kwargs):
+        super(Logger, self).__init__(*args, **kwargs)
+
+    def setLevel(self, level: int):
+        super(Logger, self).setLevel(level)
+
+    def debug(self, msg, *args, **kwargs):
+        self.inner.debug(msg, *args, **kwargs)
+
+    def info(self, msg, *args, **kwargs):
+        self.inner.info(msg, *args, **kwargs)
+
+    def warning(self, msg, *args, **kwargs):
+        self.inner.warning(msg, *args, **kwargs)
+
+    def error(self, msg, *args, **kwargs):
+        self.inner.error(msg, *args, **kwargs)
+
+
+logger = Logger()
