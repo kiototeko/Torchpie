@@ -24,7 +24,7 @@ parser.add_argument('--local_rank', default=0, type=int)
 args, _ = parser.parse_known_args()
 
 
-def get_experiment_path(experiment: str, debug: bool) -> Optional[str]:
+def get_experiment_path(experiment: str, debug: bool, local_rank=0) -> Optional[str]:
 
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
     if experiment is None:
@@ -40,7 +40,9 @@ def get_experiment_path(experiment: str, debug: bool) -> Optional[str]:
         else:
             experiment_path = experiment
 
-    os.makedirs(experiment_path)
+    # Make sure path is only made once
+    if local_rank == 0:
+        os.makedirs(experiment_path)
     return experiment_path
 
 
@@ -51,8 +53,8 @@ def is_distributed():
         return False
 
 
-
-experiment_path = get_experiment_path(args.experiment, args.debug)
+experiment_path = get_experiment_path(
+    args.experiment, args.debug, local_rank=args.local_rank)
 debug: bool = args.debug
 local_rank: int = args.local_rank
 distributed: bool = is_distributed()

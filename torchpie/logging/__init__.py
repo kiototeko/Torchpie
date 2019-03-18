@@ -8,13 +8,20 @@ import typing
 LOG_FORMAT = '%(asctime)s|%(levelname)-8s|%(filename)s:%(lineno)d %(message)s'
 
 
+def do_nothing(*args, **kwargs):
+    pass
+
+
 def rank0(func=None):
     if func is None:
         return local_rank == 0
 
     def wrapper(*args, **kwargs):
-        if local_rank == 0:
+        if False or local_rank == 0:
             return func(*args, **kwargs)
+        else:
+            return do_nothing
+        # return do_nothing
 
     return wrapper
 
@@ -46,7 +53,7 @@ def get_logging_logger(name: str, log_file: str) -> logging.Logger:
 
 
 # Fake type, do not call super().__init__()
-class Logger(logging.Logger):
+class Logger:
 
     def __init__(self):
         self.inner = get_logging_logger('torchpie', 'result.log')
@@ -54,6 +61,7 @@ class Logger(logging.Logger):
     @rank0
     def __getattr__(self, name):
         # print(f'call logger {name}')
+        # return do_nothing
         return getattr(self.inner, name)
 
 

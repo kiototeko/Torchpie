@@ -3,7 +3,7 @@ from torchpie.experiment import args, experiment_path, local_rank
 import argparse
 import os
 from torchpie.snapshot import snapshot_as_zip
-from torchpie.logging import logger
+from torchpie.logging import logger, rank0
 
 
 def compact_keys(config: pyhocon.ConfigTree):
@@ -49,7 +49,7 @@ def get_config() -> pyhocon.ConfigTree:
 
     # 检查是否有输错key
     for arg in unknown_args:
-        # remove -- from --c.xxx 
+        # remove -- from --c.xxx
         if arg[2:].startswith('c.'):
             raise Exception('wrong key: {}'.format(arg))
 
@@ -63,7 +63,7 @@ def get_config() -> pyhocon.ConfigTree:
             # Take c.[this part] from key
             config.put(key[2:], value)
 
-    if experiment_path is not None:
+    if experiment_path is not None and rank0():
         config_file = os.path.join(experiment_path, 'config.conf')
         with open(config_file, 'w') as f:
             f.write(pyhocon.HOCONConverter.to_hocon(config))

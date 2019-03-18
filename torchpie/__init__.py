@@ -1,5 +1,7 @@
-from .experiment import debug
+from .experiment import debug, distributed
 from .utils import set_exception_hook
 
-if debug:
+# Never enter debug mode when distributed.
+# ipdb under distributed is buggy.
+if debug and not distributed:
     set_exception_hook()
