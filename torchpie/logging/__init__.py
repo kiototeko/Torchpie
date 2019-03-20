@@ -49,6 +49,8 @@ def get_logging_logger(name: str, log_file: str) -> logging.Logger:
     else:
         logger.setLevel(logging.INFO)
 
+    logger.info('Logger for local_rank={}'.format(local_rank))
+
     return logger
 
 
