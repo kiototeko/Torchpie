@@ -62,8 +62,8 @@ debug: bool = args.debug
 local_rank: int = args.local_rank
 distributed: bool = is_distributed()
 resume: str = args.resume
-world_size: Optional[int] = int(
-    os.environ['WORLD_SIZE']) if distributed else None
+world_size: int = int(
+    os.environ['WORLD_SIZE']) if distributed else 1
 
 if distributed:
     torch.cuda.set_device(local_rank)
