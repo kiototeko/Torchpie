@@ -71,8 +71,11 @@ def get_config() -> pyhocon.ConfigTree:
         logger.info('Config is saved to {}'.format(config_file))
 
         # save all code and config file
-        snapshot_as_zip(os.path.join(
-            experiment_path, 'code.zip'), [config_file])
+        snapshot_as_zip(
+            os.path.join(experiment_path, 'code.zip'),
+            file_list=[config_file] +
+            config.get_list('snapshot.files', default=[]),
+            patterns=['**/*.py'] + config.get_list('snapshot.patterns', default=[]))
     else:
         logger.warning('No experiment path, no config will be saved.')
 
