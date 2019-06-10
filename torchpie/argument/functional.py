@@ -24,3 +24,10 @@ def get_experiment_path(args: Argument) -> Optional[str]:
     if args.local_rank == 0 and args.resume is None:
         os.makedirs(experiment_path)
     return experiment_path
+
+
+def is_distributed() -> bool:
+    if 'WORLD_SIZE' in os.environ:
+        return int(os.environ['WORLD_SIZE']) > 1
+    else:
+        return False
