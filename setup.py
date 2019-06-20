@@ -22,16 +22,21 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
+def find_requirements(file_path):
+    with open(file_path) as f:
+        return f.read().splitlines()
+
+
 VERSION = find_version('torchpie', '__init__.py')
 
-requirements = [
-    ''
-]
+requirements = find_requirements('requirements.txt')
+
 
 setup(
     name='torchpie',
     version=VERSION,
     description='Pytorch utils',
     author='SunDoge',
-    packages=find_packages(exclude=('test',))
+    packages=find_packages(exclude=('test',)),
+    install_requires=requirements
 )

@@ -1,0 +1,7 @@
+requests
+setuptools
+torch
+ipython
+injector
+pyhocon
+typing
