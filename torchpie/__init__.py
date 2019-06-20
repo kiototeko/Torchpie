@@ -2,6 +2,8 @@ from .utils import set_exception_hook
 from .argument import args
 from .argument.functional import is_distributed
 
+__version__ = '0.2.0'
+
 # 这些变量直接用tp.[name]访问，挂在tp上以免污染全局变量。
 local_rank: int = args.local_rank
 debug: bool = args.debug
