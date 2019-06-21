@@ -31,3 +31,11 @@ def is_distributed() -> bool:
         return int(os.environ['WORLD_SIZE']) > 1
     else:
         return False
+
+
+def set_cuda_visible_devices(args: Argument):
+    """
+    if args.gpu exists, set CUDA_VISIBLE_DEVICES
+    """
+    if args.gpu is not None:
+        os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
