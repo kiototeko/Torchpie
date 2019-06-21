@@ -51,4 +51,5 @@ def configure_args(binder: Binder):
     experiment_path = get_experiment_path(argument)
     binder.bind(ExperimentPath, to=experiment_path, scope=singleton)
 
+    # 使用参数来控制GPU数量
     set_cuda_visible_devices(argument)
