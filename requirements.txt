@@ -5,3 +5,4 @@ ipython
 injector
 pyhocon
 typing
+-e git+https://github.com/SunDoge/typeargs.git#egg=typeargs

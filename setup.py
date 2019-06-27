@@ -23,13 +23,22 @@ def find_version(*file_paths):
 
 
 def find_requirements(file_path):
-    with open(file_path) as f:
-        return f.read().splitlines()
+    install_requires = []
+    dependency_links = []
+
+    with open(file_path, 'r') as f:
+        for line in f.readlines():
+            if line.startswith('-e'):
+                dependency_links.append(line[3:])
+            else:
+                install_requires.append(line)
+
+    return install_requires, dependency_links
 
 
 VERSION = find_version('torchpie', '__init__.py')
 
-requirements = find_requirements('requirements.txt')
+install_requires, dependency_links = find_requirements('requirements.txt')
 
 
 setup(
@@ -38,5 +47,6 @@ setup(
     description='Pytorch utils',
     author='SunDoge',
     packages=find_packages(exclude=('test',)),
-    install_requires=requirements
+    install_requires=install_requires,
+    dependency_links=dependency_links,
 )

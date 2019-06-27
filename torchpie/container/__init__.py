@@ -1,9 +1,9 @@
 from injector import Injector
-from torchpie.argument.base import configure_args
+from torchpie.argument.base import Args
 
 # 在这里注册
 modules = [
-    configure_args
+    Args
 ]
 
 container = Injector(modules=modules)
