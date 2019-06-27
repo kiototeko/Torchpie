@@ -1,11 +1,11 @@
 import argparse
 from .functional import get_experiment_path
-from typing import Optional
+from typing import Optional, NewType
 from typeargs import TypeArgs
 
 from injector import Binder, singleton, Key, inject, Module
 
-ExperimentPath = Key('experiment-path')
+ExperimentPath = NewType('ExperimentPath', str)
 
 
 # class Argument:
@@ -64,6 +64,8 @@ class Args(TypeArgs):
             type=int
         )
 
+        self.parse_known_args()
+
 
 # def configure_args(binder: Binder):
 #     '''创建args对象，并注入container'''
@@ -103,5 +105,5 @@ def configure_args(binder: Binder):
     args = Args()
     binder.bind(Args, to=args, scope=singleton)
 
-    experiment_path = get_experiment_path(args)
+    experiment_path = get_experiment_path(args.experiment_path, args.debug, args.local_rank)
     binder.bind(ExperimentPath, to=experiment_path, scope=singleton)

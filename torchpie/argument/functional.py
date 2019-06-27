@@ -3,24 +3,24 @@ from typing import Optional
 import os
 
 
-def get_experiment_path(args) -> Optional[str]:
+def get_experiment_path(experiment_path: Optional[str], debug: bool, local_rank: int) -> Optional[str]:
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
 
-    if args.experiment_path is None:
-        if args.debug:
+    if experiment_path is None:
+        if debug:
             experiment_path = os.path.join(
                 'output', '{}_debug'.format(timestamp))
         else:
             experiment_path = os.path.join('output', timestamp)
     else:
         # No experiment path
-        if args.experiment_path == '!default':
+        if experiment_path == '!default':
             return None
         else:
-            experiment_path = args.experiment_path
+            experiment_path = experiment_path
 
     # Make sure path is only made once
-    if args.local_rank == 0 and args.resume is None:
+    if local_rank == 0:
         os.makedirs(experiment_path)
     return experiment_path
 
