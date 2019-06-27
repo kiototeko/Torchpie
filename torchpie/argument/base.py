@@ -1,5 +1,5 @@
 import argparse
-from .functional import get_experiment_path, set_cuda_visible_devices
+from .functional import get_experiment_path
 from typing import Optional
 from typeargs import TypeArgs
 
@@ -99,4 +99,9 @@ class Args(TypeArgs):
 #     # 使用参数来控制GPU数量
 #     set_cuda_visible_devices(argument)
 
+def configure_args(binder: Binder):
+    args = Args()
+    binder.bind(Args, to=args, scope=singleton)
 
+    experiment_path = get_experiment_path(args)
+    binder.bind(ExperimentPath, to=experiment_path, scope=singleton)

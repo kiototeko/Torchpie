@@ -1,6 +1,7 @@
 from .utils import set_exception_hook
-from .argument import args, experiment_path
+from .argument import args
 from .argument.functional import is_distributed
+
 from typing import Optional
 
 __version__ = '0.2.0'
