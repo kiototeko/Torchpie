@@ -1,7 +1,7 @@
 import argparse
 from .functional import get_experiment_path
 from typing import Optional, NewType
-from typeargs import TypeArgs
+# from typeargs import TypeArgs
 
 from injector import Binder, singleton, Key, inject, Module
 
@@ -20,51 +20,51 @@ ExperimentPath = NewType('ExperimentPath', str)
 #     def __contains__(self, key):
 #         return key in self.__dict__
 
-class Args(TypeArgs):
+# class Args(TypeArgs):
 
-    def __init__(self):
-        self.parser = argparse.ArgumentParser()
-        self.experiment_path: str = self.parser.add_argument(
-            '-e',
-            '--experiment-path',
-            type=str,
-            nargs='?',
-            default='!default',
-            required=False,
-            help='path to save your experiment'
-        )
+#     def __init__(self):
+#         self.parser = argparse.ArgumentParser()
+#         self.experiment_path: str = self.parser.add_argument(
+#             '-e',
+#             '--experiment-path',
+#             type=str,
+#             nargs='?',
+#             default='!default',
+#             required=False,
+#             help='path to save your experiment'
+#         )
 
-        self.config: str = self.parser.add_argument(
-            '-c',
-            '--config',
-            type=str,
-            nargs='?',
-            required=False,
-            help='path to config files'
-        )
+#         self.config: str = self.parser.add_argument(
+#             '-c',
+#             '--config',
+#             type=str,
+#             nargs='?',
+#             required=False,
+#             help='path to config files'
+#         )
 
-        self.debug: bool = self.parser.add_argument(
-            '-d',
-            '--debug',
-            action='store_true',
-            help='debug mode'
-        )
+#         self.debug: bool = self.parser.add_argument(
+#             '-d',
+#             '--debug',
+#             action='store_true',
+#             help='debug mode'
+#         )
 
-        self.resume: str = self.parser.add_argument(
-            '-r', 
-            '--resume', 
-            type=str, 
-            help='resume model'
-        )
+#         self.resume: str = self.parser.add_argument(
+#             '-r', 
+#             '--resume', 
+#             type=str, 
+#             help='resume model'
+#         )
 
-        # This arg is for distributed
-        self.local_rank: int = self.parser.add_argument(
-            '--local_rank', 
-            default=0, 
-            type=int
-        )
+#         # This arg is for distributed
+#         self.local_rank: int = self.parser.add_argument(
+#             '--local_rank', 
+#             default=0, 
+#             type=int
+#         )
 
-        self.parse_known_args()
+#         self.parse_known_args()
 
 
 # def configure_args(binder: Binder):
@@ -101,9 +101,9 @@ class Args(TypeArgs):
 #     # 使用参数来控制GPU数量
 #     set_cuda_visible_devices(argument)
 
-def configure_args(binder: Binder):
-    args = Args()
-    binder.bind(Args, to=args, scope=singleton)
+# def configure_args(binder: Binder):
+#     args = Args()
+#     binder.bind(Args, to=args, scope=singleton)
 
-    experiment_path = get_experiment_path(args.experiment_path, args.debug, args.local_rank)
-    binder.bind(ExperimentPath, to=experiment_path, scope=singleton)
+#     experiment_path = get_experiment_path(args.experiment_path, args.debug, args.local_rank)
+#     binder.bind(ExperimentPath, to=experiment_path, scope=singleton)
