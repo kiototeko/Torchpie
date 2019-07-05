@@ -9,3 +9,10 @@ def is_distributed() -> bool:
         return int(os.environ['WORLD_SIZE']) > 1
     else:
         return False
+
+
+def do_nothing(*args, **kwargs):
+    '''
+    什么也不做
+    '''
+    pass
