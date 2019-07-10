@@ -1,6 +1,5 @@
 import logging
 from injector import Module, singleton, provider
-from torchpie.parallel import rank0_wrapper
 from ..environment import Args
 from torchpie.utils import get_timestamp
 import sys
@@ -40,7 +39,5 @@ class LoggerModule(Module):
             logger.setLevel(logging.INFO)
 
         logger.info('Logger for local_rank={}'.format(args.local_rank))
-
-        
 
         return logger

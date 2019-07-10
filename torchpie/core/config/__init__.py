@@ -1,20 +1,18 @@
 from injector import Module, provider, singleton
 from ..environment import Args
 import pyhocon
+import logging
 
 
 class ConfigModule(Module):
 
     @singleton
     @provider
-    def provide_config(self, args: Args) -> pyhocon.ConfigTree:
+    def provide_config(self, args: Args, logger: logging.Logger) -> pyhocon.ConfigTree:
         if args.config is None:
-            print('no config in args')
+            logger.warning('Config not found.')
             return None
-        
+
         config = pyhocon.ConfigFactory.parse_file(args.config)
 
-
         return config
-
-        

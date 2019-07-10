@@ -1,6 +1,30 @@
 import argparse
 from injector import provider, Module, singleton
 from typing import Optional
+import os
+from torchpie.utils import get_timestamp
+
+
+# def get_experiment_path(args: Args) -> Optional[str]:
+
+#     timestamp = get_timestamp()
+#     if args.experiment_path is None:
+#         if args.debug:
+#             experiment_path = os.path.join(
+#                 'output', '{}_debug'.format(timestamp))
+#         else:
+#             experiment_path = os.path.join('output', timestamp)
+#     else:
+#         # No experiment path
+#         if args.experiment_path == '!default':
+#             return None
+#         else:
+#             experiment_path = args.experiment_path
+
+#     # Make sure path is only made once
+#     if args.local_rank == 0:
+#         os.makedirs(experiment_path)
+#     return experiment_path
 
 
 class Args:
@@ -50,6 +74,7 @@ class Args:
         )
 
         self.parse_known_args(parser)
+        self.create_experiment_path()
 
     def parse_args(self, parser: argparse.ArgumentParser):
         self._parser = parser
@@ -73,6 +98,23 @@ class Args:
         Copy from argparse.Namespace
         '''
         return key in self.__dict__
+
+    def create_experiment_path(self):
+        timestamp = get_timestamp()
+        if self.experiment_path is None:
+            if self.debug:
+                self.experiment_path = os.path.join(
+                    'output', '{}_debug'.format(timestamp))
+            else:
+                self.experiment_path = os.path.join('output', timestamp)
+
+            # Make sure path is only made once
+            if self.local_rank == 0:
+                os.makedirs(self.experiment_path)
+        else:
+            # No experiment path
+            if self.experiment_path == '!default':
+                self.experiment_path = None
 
 
 class ArgsModule(Module):
