@@ -1,9 +1,10 @@
 from zipfile import ZipFile
 import glob
-from torchpie.logging import logger, rank0
+from torchpie.logging import logger
+from torchpie.parallel import rank0_fn
 
-
-@rank0
+# [TODO] move it to utils
+@rank0_fn
 def snapshot_as_zip(name: str, file_list: list = None, patterns=['**/*.py']):
     with ZipFile(name, 'w') as zf:
 
