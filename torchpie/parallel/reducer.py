@@ -1,6 +1,6 @@
 import torch
 import torch.distributed as dist
-from torchpie.experiment import world_size
+from torchpie.parallel import world_size
 
 
 def reduce_tensor(tensor: torch.Tensor) -> torch.Tensor:

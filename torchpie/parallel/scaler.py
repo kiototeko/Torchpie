@@ -1,4 +1,4 @@
-from torchpie.experiment import world_size
+from torchpie.parallel import world_size
 
 
 def scale_lr(lr: float, batch_size: int) -> float:
