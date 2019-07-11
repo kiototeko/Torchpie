@@ -36,7 +36,6 @@ if distributed:
 #             return do_nothing
 
 
-
 def do_nothing(*args, **kwargs):
     '''
     什么也不做
@@ -65,12 +64,13 @@ def rank0_cls(cls):
     return cls
 
 
-def rank0_wrapper(obj, cls):
-
+def rank0_obj(obj):
+    '''
+    Too tricky, I don't like it.
+    '''
+    cls = obj.__class__
     for key, value in cls.__dict__.items():
-
         if callable(value):
-
             obj.__dict__[key] = rank0_fn(value).__get__(obj, cls)
 
     return obj

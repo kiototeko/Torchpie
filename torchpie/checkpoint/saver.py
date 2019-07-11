@@ -1,10 +1,10 @@
 import os
 import torch
 import shutil
-from torchpie.logging import rank0
+# from torchpie.logging import rank0
+from torchpie.parallel import rank0_fn
 
-
-@rank0
+@rank0_fn
 def save_checkpoint(state: dict, is_best=False, folder='', filename='checkpoint.pth.tar'):
     filename = os.path.join(folder, filename)
     torch.save(state, filename)
