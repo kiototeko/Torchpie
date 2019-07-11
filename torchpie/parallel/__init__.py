@@ -74,3 +74,15 @@ def rank0_obj(obj):
             obj.__dict__[key] = rank0_fn(value).__get__(obj, cls)
 
     return obj
+
+
+def rank0(something):
+    '''
+    Something may be function, class or object, wrap it anyway.
+    '''
+    if inspect.isfunction(something):
+        return rank0_fn(something)
+    elif inspect.isclass(something):
+        return rank0_cls(something)
+    else:
+        return rank0_obj(something)
