@@ -1,4 +1,8 @@
 import pyhocon
+from zipfile import ZipFile
+from glob import glob
+from typing import Optional, List
+
 
 def compact_keys(config: pyhocon.ConfigTree):
     '''
@@ -24,3 +28,18 @@ def compact_keys(config: pyhocon.ConfigTree):
             key_stack.pop()
 
     yield from walk(config)
+
+
+def take_snapshot_as_zip(name: str, file_list: Optional[List[str]] = None, patterns=['**/*.py']) -> List[str]:
+    with ZipFile(name, 'w') as zf:
+
+        if file_list is None:
+            file_list = []
+
+        for pattern in patterns:
+            file_list.extend(glob(pattern, recursive=True))
+
+        for filename in file_list:
+            zf.write(filename)
+
+    return file_list

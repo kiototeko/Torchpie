@@ -1,11 +1,8 @@
 import logging
 from injector import Module, singleton, provider
 from ..environment import Args
-from torchpie.utils import get_timestamp
 import sys
 import os
-
-LOG_FORMAT = '%(asctime)s|%(levelname)-8s|%(filename)s:%(lineno)d %(message)s'
 
 
 class LoggerModule(Module):
@@ -16,7 +13,8 @@ class LoggerModule(Module):
 
         logger = logging.getLogger('torchpie')
 
-        log_format = '%(asctime)s|%(levelname)-8s|%(filename)s:%(lineno)d %(message)s'
+        # log_format = '%(asctime)s|%(levelname)-8s|%(pathname)s:%(lineno)d %(message)s'
+        log_format = '%(asctime)s|%(levelname)-8s| %(message)s'
         formatter = logging.Formatter(log_format)
 
         console_handler = logging.StreamHandler(sys.stdout)
@@ -26,7 +24,7 @@ class LoggerModule(Module):
         if args.experiment_path is not None:
             # Add timestamp to filename
             file_handler = logging.FileHandler(
-                os.path.join(args.experiment_path, f'result_{get_timestamp()}.log'))
+                os.path.join(args.experiment_path, 'result.log'))
             file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
         else:

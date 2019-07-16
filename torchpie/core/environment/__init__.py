@@ -103,18 +103,22 @@ class Args:
         timestamp = get_timestamp()
         if self.experiment_path is None:
             if self.debug:
-                self.experiment_path = os.path.join(
+                experiment_path = os.path.join(
                     'output', '{}_debug'.format(timestamp))
             else:
-                self.experiment_path = os.path.join('output', timestamp)
+                experiment_path = os.path.join('output', timestamp)
 
-            # Make sure path is only made once
-            if self.local_rank == 0:
-                os.makedirs(self.experiment_path)
         else:
             # No experiment path
             if self.experiment_path == '!default':
-                self.experiment_path = None
+                experiment_path = None
+            else:
+                experiment_path = self.experiment_path
+
+        if experiment_path is not None and self.local_rank == 0:
+            os.makedirs(experiment_path)
+
+        self.experiment_path = experiment_path
 
 
 class ArgsModule(Module):
