@@ -1,11 +1,12 @@
-from .functional import is_distributed, do_nothing
+# from .functional import is_distributed, do_nothing
+from . import functional as F
 from ..environment import args
 import torch
 import inspect
 from functools import wraps
 
 
-distributed: bool = is_distributed()
+distributed: bool = F.is_distributed()
 local_rank: int = args.local_rank
 local_rank_is_0: bool = local_rank == 0
 

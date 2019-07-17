@@ -1,6 +1,7 @@
 import os
 
 
+
 def is_distributed() -> bool:
     '''
     https://github.com/NVIDIA/apex/blob/master/examples/imagenet/main_amp.py#L112
