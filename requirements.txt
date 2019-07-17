@@ -1,9 +1,7 @@
 requests
 setuptools
 torch
-ipython
 injector
 pyhocon
 typing
 future
--e git+https://github.com/SunDoge/typeargs.git#egg=typeargs
