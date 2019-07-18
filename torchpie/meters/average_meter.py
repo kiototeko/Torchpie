@@ -1,4 +1,7 @@
 class AverageMeter:
+    '''
+    https://github.com/pytorch/examples/blob/master/imagenet/main.py#L354
+    '''
 
     def __init__(self, name, fmt=':f'):
         self.name = name
