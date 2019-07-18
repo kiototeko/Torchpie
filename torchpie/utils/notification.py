@@ -1,7 +1,11 @@
 import requests
 from typing import List, Dict, Union
 
-def notify_by_wechat(sckey, text: str, desp: str):
+
+def notify_by_wechat(sckey: Union[str, List[str]], text: str, desp: str = ''):
+    '''
+    desp will no be shown now.
+    '''
     if type(sckey) == str:
         sckey = [sckey]
 
@@ -12,5 +16,3 @@ def notify_by_wechat(sckey, text: str, desp: str):
 
     for key in sckey:
         requests.post(f'https://sc.ftqq.com/{sckey}.send', data=data)
-
-

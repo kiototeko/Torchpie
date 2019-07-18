@@ -20,23 +20,6 @@ if distributed:
     world_size = torch.distributed.get_world_size()
 
 
-# def rank0(something):
-#     if inspect.isclass(something):
-#         def rank0_getattribute(self, name):
-#             if local_rank_is_0:
-#                 return super(something, self).__getattribute__(name)
-#             else:
-#                 return do_nothing
-
-#         something.__getattribute__ = rank0_getattribute
-#         return something
-#     if inspect.isfunction(something):
-#         if local_rank_is_0:
-#             return something
-#         else:
-#             return do_nothing
-
-
 def do_nothing(*args, **kwargs):
     '''
     什么也不做
