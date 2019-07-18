@@ -20,11 +20,17 @@ if distributed:
     world_size = torch.distributed.get_world_size()
 
 
-def do_nothing(*args, **kwargs):
+class FakeObj:
+
+    def __getattr__(self, name):
+        return do_nothing
+
+
+def do_nothing(*args, **kwargs) -> FakeObj:
     '''
     什么也不做
     '''
-    pass
+    return FakeObj()
 
 
 def rank0_fn(fn):
