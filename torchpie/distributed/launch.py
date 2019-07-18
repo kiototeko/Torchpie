@@ -145,6 +145,7 @@ import subprocess
 import sys
 from argparse import ONE_OR_MORE, REMAINDER, ArgumentParser
 from contextlib import closing
+import torch
 
 
 def find_free_port() -> int:
@@ -171,7 +172,8 @@ def parse_args():
     parser.add_argument("--node_rank", type=int, default=0,
                         help="The rank of the node for multi-node distributed "
                              "training")
-    parser.add_argument("--nproc_per_node", type=int, default=1,
+    # By default, we use all gpus.
+    parser.add_argument("--nproc_per_node", type=int, default=torch.cuda.device_count(),
                         help="The number of processes to launch on each node, "
                              "for GPU training, this is recommended to be set "
                              "to the number of GPUs in your system so that "
