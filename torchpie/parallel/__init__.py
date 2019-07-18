@@ -40,7 +40,7 @@ def rank0_fn(fn):
             kwargs.pop('run_anyway', None)
             return fn(*args, **kwargs)
         else:
-            return do_nothing
+            return FakeObj()
 
     return wrapper
 
