@@ -6,6 +6,13 @@
 pip install git+https://git.dev.tencent.com/SunDoge/torchpie.git
 ```
 
+## Usage
+
+单机多卡分布式
+```bash
+python -m torchpie.distributed.launch --gpus 1,2,3,4 train.py -c config/default.conf -e exps/my-experiment
+```
+
 ## Roadmap
 
 - [ ] tests
