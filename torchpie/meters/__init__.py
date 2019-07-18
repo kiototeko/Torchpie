@@ -1,1 +1,1 @@
-from .average_meter import *
+from .average_meter import AverageMeter
