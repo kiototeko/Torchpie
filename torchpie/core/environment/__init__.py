@@ -116,7 +116,7 @@ class Args:
                 experiment_path = self.experiment_path
 
         if experiment_path is not None and self.local_rank == 0:
-            os.makedirs(experiment_path)
+            os.makedirs(experiment_path, exist_ok=True)
 
         self.experiment_path = experiment_path
 
